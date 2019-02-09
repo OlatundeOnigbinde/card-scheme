@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.jumiapay.cardscheme.service;
 
 import com.jumiapay.cardscheme.dto.CardDetailsDTO;
-import com.jumiapay.cardscheme.dto.Payload;
+import com.jumiapay.cardscheme.dto.PayloadDTO;
 import com.jumiapay.cardscheme.dto.VerifyResponseDTO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +34,7 @@ public class VerifyCardServiceImpl implements VerifyCardService {
             if (obj != null) {
                 response.setSuccess(true);
                 String bankName = (obj.getBank() != null && obj.getBank().containsKey("name")) ? obj.getBank().get("name") : "";
-                Payload p = new Payload(obj.getScheme(), obj.getType(), bankName);
+                PayloadDTO p = new PayloadDTO(obj.getScheme(), obj.getType(), bankName);
                 response.setPayload(p);
                 return response;
             }

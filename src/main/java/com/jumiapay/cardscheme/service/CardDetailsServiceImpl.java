@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.jumiapay.cardscheme.service;
 
-import com.jumiapay.cardscheme.dto.Payload;
+import com.jumiapay.cardscheme.dto.PayloadDTO;
 import com.jumiapay.cardscheme.dto.StatsDTO;
 import com.jumiapay.cardscheme.dto.VerifyResponseDTO;
 import com.jumiapay.cardscheme.model.CardDetailsEntity;
@@ -49,7 +44,7 @@ public class CardDetailsServiceImpl implements CardDetailsService {
 
             response = new VerifyResponseDTO();
             response.setSuccess(true);
-            Payload p = new Payload(cardDetails.getCardScheme(), cardDetails.getCardType(), cardDetails.getBank());
+            PayloadDTO p = new PayloadDTO(cardDetails.getCardScheme(), cardDetails.getCardType(), cardDetails.getBank());
             response.setPayload(p);
             return response;
         }
@@ -69,12 +64,11 @@ public class CardDetailsServiceImpl implements CardDetailsService {
 
     @Override
     public StatsDTO findRequestCount(int start, int limit) {
-//        return requestsRepository.findRequestCount(pageable);
         StatsDTO response = new StatsDTO();
         Page<RequestStatistics> items = requestsRepository.findRequestCount(PageRequest.of(start, limit));
         if (items.isEmpty()) {
             response.setSuccess(false);
-            return response;//notFound().build();
+            return response;
         }
         logger.log(Level.INFO, "total elements: {0}", items.getTotalElements());
         logger.log(Level.INFO, "total pages: {0}", items.getTotalPages());
@@ -83,8 +77,6 @@ public class CardDetailsServiceImpl implements CardDetailsService {
         response.setLimit(limit);
         response.setSize(items.getTotalElements());
         items.getContent().stream().forEach((x) -> {
-            logger.log(Level.INFO, "card number: {0}", x.getCardNumber());
-            logger.log(Level.INFO, "count: {0}", x.getCount());
             response.getPayload().put(x.getCardNumber(), "" + x.getCount());
         });
         return response;

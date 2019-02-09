@@ -6,7 +6,7 @@
 package com.jumiapay.cardscheme;
 
 import com.jumiapay.cardscheme.controller.CardSchemeController;
-import com.jumiapay.cardscheme.dto.Payload;
+import com.jumiapay.cardscheme.dto.PayloadDTO;
 import com.jumiapay.cardscheme.dto.StatsDTO;
 import com.jumiapay.cardscheme.dto.VerifyResponseDTO;
 import com.jumiapay.cardscheme.service.CardDetailsService;
@@ -67,7 +67,7 @@ public class CardSchemeRestControllerIntegrationTest {
         VerifyResponseDTO verifyDTO = new VerifyResponseDTO();
 
         verifyDTO.setSuccess(true);
-        Payload p = new Payload("mastercard", "debit", "GUARANTY TRUST BANK");
+        PayloadDTO p = new PayloadDTO("mastercard", "debit", "GUARANTY TRUST BANK");
         verifyDTO.setPayload(p);
 
         given(cardDetailsService.verifyCard("539983")).willReturn(verifyDTO);
